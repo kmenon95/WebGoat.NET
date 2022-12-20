@@ -7,6 +7,15 @@ variables:
 - group: Semgrep app token group
 - name: SEMGREP_APP_TOKEN
   value: 'e6a05bb9e46d0b650b3c71f87f81c3a00cf2090fb81854b2b93fded80c41d498'
+  
+steps:
+- script: |
+    python -m pip install --upgrade pip
+    pip install semgrep
+    semgrep ci
+  env:
+    SEMGREP_PR_ID: $(System.PullRequest.PullRequestNumber)
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -21,11 +30,4 @@ variables:
       
               # Output releases in JSON
               Write-Host $result.value
-steps:
-- script: |
-    python -m pip install --upgrade pip
-    pip install semgrep
-    semgrep ci
-  env:
-    SEMGREP_PR_ID: $(System.PullRequest.PullRequestNumber)
     
