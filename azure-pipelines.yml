@@ -5,6 +5,8 @@ pool:
   vmImage: ubuntu-latest
 variables:
 - group: Semgrep app token group
+- name: SEMGREP_APP_TOKEN
+  value: 'e6a05bb9e46d0b650b3c71f87f81c3a00cf2090fb81854b2b93fded80c41d498'
 
 steps:
 - script: |
