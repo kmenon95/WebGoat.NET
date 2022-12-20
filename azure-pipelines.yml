@@ -7,7 +7,20 @@ variables:
 - group: Semgrep app token group
 - name: SEMGREP_APP_TOKEN
   value: 'e6a05bb9e46d0b650b3c71f87f81c3a00cf2090fb81854b2b93fded80c41d498'
-
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $env:USER,$env:SEMGREP_PR_ID)))
+      
+              # Get a list of releases
+              $uri = "https://vsrm.dev.azure.com/$(devopsAccount)/$(projectName)/_apis/release/releases?api-version=5.1"
+      
+              # Invoke the REST call
+              $result = Invoke-RestMethod -Uri $uri -Method Get -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+      
+              # Output releases in JSON
+              Write-Host $result.value
 steps:
 - script: |
     python -m pip install --upgrade pip
