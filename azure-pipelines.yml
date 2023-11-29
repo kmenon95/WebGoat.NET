@@ -16,7 +16,7 @@ steps:
   #env:
   #  SEMGREP_PR_ID: $(System.PullRequest.PullRequestNumber)
   env: 
-    SEMGREP_RULES: p/default
+    SEMGREP_RULES: p/defaul
 
 
     
